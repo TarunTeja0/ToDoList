@@ -1,0 +1,49 @@
+public class ImportantFragment extends Fragment {
+
+    private RecyclerView recyclerView;
+    private NoteAdapter noteAdapter;
+    private List<Note> importantNotes;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_important, container, false);
+
+        recyclerView = view.findViewById(R.id.recyclerViewImportant);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        // Create a list of important notes
+        importantNotes = getImportantNotes();
+
+        // Create the NoteAdapter with the important notes list
+        noteAdapter = new NoteAdapter(importantNotes);
+
+        // Set the adapter to the RecyclerView
+        recyclerView.setAdapter(noteAdapter);
+
+        return view;
+    }
+
+    // ...
+}
+
+public class UnimportantFragment extends Fragment {
+
+    private RecyclerView recyclerView;
+    private NoteAdapter noteAdapter;
+    private List<Note> unimportantNotes;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_unimportant, container, false);
+
+        recyclerView = view.findViewById(R.id.recyclerViewUnimportant);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        // Create a list of unimportant notes
+        unimportantNotes = getUnimportantNotes();
+
+        // Create the NoteAdapter with the unimportant notes list
+        noteAdapter = new NoteAdapter(unimportantNotes);
+
+        // Set the adapter to the RecyclerView
+        recyclerView.setAdapter(note
