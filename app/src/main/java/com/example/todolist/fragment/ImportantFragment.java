@@ -20,9 +20,11 @@ import com.example.todolist.modelnote.Note;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,10 +46,9 @@ public class ImportantFragment extends Fragment {
       recyclerView = view.findViewById(R.id.imp_recyclerView);
       readNoteFiles();
 
-      recyclerView = view.findViewById(R.id.imp_recyclerView);
       CommonRecyclerViewAdapter crva = new CommonRecyclerViewAdapter(requireContext(), notes);
       recyclerView.setAdapter(crva);
-      crva.notifyDataSetChanged();
+//      crva.notifyDataSetChanged();
       recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
       return view;
     }
@@ -56,6 +57,22 @@ public class ImportantFragment extends Fragment {
 
 
   private void readNoteFiles() {
+//    try {
+//      String fileName = "Notes.txt"
+//      File directory = getContext().getExternalFilesDir(null); // Get app-specific directory
+//      File file = new File(directory, fileName); // Create file in the directory
+//      FileOutputStream fileOutputStream = new FileOutputStream(file);
+//      OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
+//      Gson gson = new Gson();
+//      times.add(new Time(hour,min));
+//      String json = gson.toJson(times);
+//      outputStreamWriter.write(json);
+//      outputStreamWriter.close();
+//    } catch (IOException e) {
+//      e.printStackTrace();
+//    }
+
+
 //    try {
 //
 //      File file = new File(appContext.getFilesDir(), "fileName");
@@ -72,13 +89,14 @@ public class ImportantFragment extends Fragment {
 //    catch (Exception e){
 
 //    }
+    //todo-newly commented
     File directory = appContext.getFilesDir();
     File[] files = directory.listFiles();
-    Log.d("file",String.valueOf(files.length));
+    Log.d("files", String.valueOf(files[0].getName().toString()));
     if (files != null) {
       for (File file : files) {
-        if (file.isFile() && file.getName().startsWith("imp")) {
-          readFile( file);
+        if (file.isFile()) {
+          readFile(file);
         }
       }
     }
@@ -87,6 +105,9 @@ public class ImportantFragment extends Fragment {
   public void readFile(File filee){
     Note note = new Note();
     try {
+      Log.d("files", String.valueOf(filee.isFile()));
+      Log.d("files", String.valueOf(filee.getName()));
+
       File file = new File(appContext.getFilesDir(),filee.getName()); // Replace "example.txt" with your file name
       FileInputStream fis = new FileInputStream(file);
       BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
@@ -98,13 +119,15 @@ public class ImportantFragment extends Fragment {
       while ((line = reader.readLine()) != null) {
         if(line.startsWith("imp") && count==0){
           note.setImportant("important");
+          Log.d("impo", note.getImportant());
           count++;
         }
         else if(count==0){
           break;
         }
-        if(line.startsWith("Title:")){
+        if(line.startsWith("Title: ")){
           note.setTitle(line.substring(7));
+          Log.d("title", note.getTitle());
         }
         else{
           content += line.toString() + "\n";
